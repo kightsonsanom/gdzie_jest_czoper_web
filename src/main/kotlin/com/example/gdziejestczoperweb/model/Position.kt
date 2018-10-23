@@ -22,7 +22,7 @@ data class Position(@Id
                     var lastLocationDate: Long = 0,
                     var startLocation: String? = null,
                     var endLocation: String? = null,
-                    var status: String? = null,
+                    var status: Int? = null,
 
                     @ManyToOne
                     @JoinColumn(name = "user_id")

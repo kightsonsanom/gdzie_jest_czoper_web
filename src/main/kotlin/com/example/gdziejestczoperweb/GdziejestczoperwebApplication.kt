@@ -9,11 +9,20 @@ import com.example.gdziejestczoperweb.repository.UserRepository
 import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.builder.SpringApplicationBuilder
 import org.springframework.boot.runApplication
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Bean
 
 @SpringBootApplication
-class GdziejestczoperwebApplication {
+class GdziejestczoperwebApplication: SpringBootServletInitializer() {
+
+
+    override fun configure(application: SpringApplicationBuilder): SpringApplicationBuilder {
+        return application.sources(GdziejestczoperwebApplication::class.java)
+    }
+
+
     private val log = LoggerFactory.getLogger(GdziejestczoperwebApplication::class.java)
 
     @Bean
