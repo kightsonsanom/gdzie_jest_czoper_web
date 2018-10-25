@@ -88,6 +88,22 @@ class GeoController(private val geoRepository: GeoRepository,
         }
     }
 
+    @GetMapping("geo/latestGeoForUser")
+    fun getLatestGeoForUser(@RequestParam("userName") userName: String): Geo {
+
+        log.print("getLatestGeoForUser")
+        val query = em.createNativeQuery("SELECT * FROM Geo g INNER JOIN"
+                + " (SELECT user_id FROM User u WHERE nazwa = :userName) t"
+                + " ON g.user_id = t.user_id ORDER BY g.date DESC LIMIT 1", Geo::class.java)
+                .setParameter("userName", userName)
+
+        log.print("query.singleResult as Geo = " + query.singleResult as Geo)
+
+        return query.singleResult as Geo
+    }
+
+
+
 //
 //    @DeleteMapping("/articles/{id}")
 //    fun deleteArticleById(@PathVariable(value = "id") articleId: Long): ResponseEntity<Void> {

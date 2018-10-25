@@ -13,7 +13,7 @@ import java.util.HashSet
 //        generator = ObjectIdGenerators.PropertyGenerator.class,
 //        property = "geo_id")
 @Table(name = "geo")
-@JsonIgnoreProperties("positions")
+@JsonIgnoreProperties("positions", "user")
 data class Geo(@Id
                val id: Long = 0,
                val location: String? = null,
