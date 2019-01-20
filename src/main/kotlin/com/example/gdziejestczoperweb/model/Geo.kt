@@ -8,10 +8,9 @@ import java.io.Serializable
 import java.util.HashSet
 
 @Entity
-@NamedQueries(NamedQuery(name = "geo.findAll", query = "SELECT g FROM Geo g"), NamedQuery(name = "geo.findByID", query = "SELECT g FROM Geo g WHERE g.id=:geoID"), NamedQuery(name = "geo.findLatestGeoByUser", query = "SELECT g.id,g.location, min(g.date), g.displayText, g.user FROM Geo g GROUP BY g.user"))
-//@JsonIdentityInfo(
-//        generator = ObjectIdGenerators.PropertyGenerator.class,
-//        property = "geo_id")
+@NamedQueries(NamedQuery(name = "geo.findAll", query = "SELECT g FROM Geo g"),
+        NamedQuery(name = "geo.findByID", query = "SELECT g FROM Geo g WHERE g.id=:geoID"),
+        NamedQuery(name = "geo.findLatestGeoByUser", query = "SELECT g.id,g.location, min(g.date), g.displayText, g.user FROM Geo g GROUP BY g.user"))
 @Table(name = "geo")
 @JsonIgnoreProperties("positions")
 data class Geo(@Id
@@ -24,8 +23,14 @@ data class Geo(@Id
                @JoinColumn(name = "user_id")
                var user: User? = null,
 
-               @ManyToMany(cascade = arrayOf(CascadeType.ALL))
-               @JoinTable(name = "Position_Geo", joinColumns = arrayOf(JoinColumn(name = "geo_id", referencedColumnName = "id")), inverseJoinColumns = arrayOf(JoinColumn(name = "position_id", referencedColumnName = "id")))
+               @ManyToMany(cascade = [(CascadeType.ALL)])
+               @JoinTable(name = "Position_Geo",
+                       joinColumns = [(JoinColumn(
+                               name = "geo_id",
+                               referencedColumnName = "id"))],
+                       inverseJoinColumns = [(JoinColumn(
+                               name = "position_id",
+                               referencedColumnName = "id"))])
                var positions: List<Position>  = mutableListOf()) : Serializable {
 
     override fun toString(): String {

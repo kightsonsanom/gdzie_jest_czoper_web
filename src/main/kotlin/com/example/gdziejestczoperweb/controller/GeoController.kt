@@ -28,7 +28,8 @@ class GeoController(private val geoRepository: GeoRepository,
 
 
     @PostMapping("/geo/{userid}")
-    fun createNewGeo(@PathVariable(value = "userid") userid: Int, @Valid @RequestBody geo: Geo): Geo {
+    fun createNewGeo(@PathVariable(value = "userid") userid: Int,
+                     @Valid @RequestBody geo: Geo): Geo {
         val user = userRepository.getOne(userid)
         geo.user = user
         return geoRepository.save(geo)
@@ -55,7 +56,8 @@ class GeoController(private val geoRepository: GeoRepository,
     }
 
     @PutMapping("/geo/{userid}")
-    fun edit(@PathVariable(value = "userid") userid: Int, @Valid @RequestBody newGeo: Geo) {
+    fun edit(@PathVariable(value = "userid") userid: Int,
+             @Valid @RequestBody newGeo: Geo) {
         val user = userRepository.getOne(userid)
         newGeo.user = user
         geoRepository.findById(newGeo.id).map { existingGeo ->
@@ -87,6 +89,7 @@ class GeoController(private val geoRepository: GeoRepository,
             }.orElse(geoRepository.save(it))
         }
     }
+
 
 //
 //    @DeleteMapping("/articles/{id}")
