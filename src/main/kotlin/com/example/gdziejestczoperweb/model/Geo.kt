@@ -12,7 +12,7 @@ import java.util.HashSet
         NamedQuery(name = "geo.findByID", query = "SELECT g FROM Geo g WHERE g.id=:geoID"),
         NamedQuery(name = "geo.findLatestGeoByUser", query = "SELECT g.id,g.location, min(g.date), g.displayText, g.user FROM Geo g GROUP BY g.user"))
 @Table(name = "geo")
-@JsonIgnoreProperties("positions")
+@JsonIgnoreProperties("positions", "user")
 data class Geo(@Id
                val id: Long = 0,
                val location: String? = null,

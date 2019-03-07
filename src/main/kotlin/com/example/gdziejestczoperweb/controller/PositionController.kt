@@ -99,6 +99,21 @@ class PositionController(private val positionRepository: PositionRepository,
 
         return query.resultList as List<Position>
     }
+
+
+    @GetMapping("position/latestPositionForUser")
+    fun getLatestPositionForUser(@RequestParam("userName") userName: String): Position {
+
+        log.print("getLatestPositionForUser")
+        val query = em.createNativeQuery("SELECT * FROM Position p INNER JOIN"
+                + " (SELECT user_id FROM User u WHERE nazwa = :userName) t"
+                + " ON p.user_id = t.user_id ORDER BY p.last_location_date DESC LIMIT 1", Position::class.java)
+                .setParameter("userName", userName)
+
+        log.print("query.resultList as List<Position> = " + query.singleResult as Position)
+
+        return query.singleResult as Position
+    }
 }
 
 
