@@ -33,21 +33,21 @@ class GdziejestczoperwebApplication: SpringBootServletInitializer() {
         val positions1 = mutableListOf(Position(3, "14:05:06", "14:05:07", 1, 5, "Botaniczna", "Sucharskiego", 2, user2),
                 Position(4, "14:05:06", "14:05:07", 15, 40, "Botaniczna", "Sucharskiego", 2, user2))
 
-        val positions2 = mutableListOf(Position(1, "14:05:06", "14:05:07", 5, 6, "Botaniczna", "Sucharskiego", 2, user1),
-                Position(2, "14:05:06", "14:05:07", 4, 7, "Botaniczna", "Sucharskiego", 2, user1))
+//        val positions2 = mutableListOf(Position(1, "14:05:06", "14:05:07", 5, 6, "Botaniczna", "Sucharskiego", 2, user1),
+//                Position(2, "14:05:06", "14:05:07", 4, 7, "Botaniczna", "Sucharskiego", 2, user1))
 
         positionRepository.saveAll(positions1)
-        positionRepository.saveAll(positions2)
+//        positionRepository.saveAll(positions2)
 
         val geos1 = mutableListOf(Geo(1, "51.941067, 15.504336", 12, "botan12", user1, positions1),
                 Geo(2, "51.941067, 15.504336", 13, "ptasia13", user1, positions1))
 
-        val geos2 = mutableListOf(Geo(3, "51.941067, 15.504336", 1, "sucharskiego1", user2, positions2),
-                Geo(4, "51.941067, 15.504336", 25, "robocza23", user2, positions2))
+//        val geos2 = mutableListOf(Geo(3, "51.941067, 15.504336", 1, "sucharskiego1", user2, positions2),
+//                Geo(4, "51.941067, 15.504336", 25, "robocza23", user2, positions2))
 
 
         geoRepository.saveAll(geos1)
-        geoRepository.saveAll(geos2)
+//        geoRepository.saveAll(geos2)
 
     }
 
@@ -58,9 +58,7 @@ class GdziejestczoperwebApplication: SpringBootServletInitializer() {
 
     private val log = LoggerFactory.getLogger(GdziejestczoperwebApplication::class.java)
 
-
 }
-
 
 fun main(args: Array<String>) {
     runApplication<GdziejestczoperwebApplication>(*args)
