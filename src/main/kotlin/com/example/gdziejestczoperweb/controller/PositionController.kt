@@ -3,6 +3,13 @@ package com.example.gdziejestczoperweb.controller
 import com.example.gdziejestczoperweb.model.Position
 import com.example.gdziejestczoperweb.repository.PositionRepository
 import com.example.gdziejestczoperweb.repository.UserRepository
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.maps.GeoApiContext
+import com.google.maps.GeocodingApi
+import com.google.maps.GeocodingApiRequest
+import com.google.maps.model.GeocodingResult
+import com.google.maps.model.LatLng
 import jdk.nashorn.internal.runtime.regexp.joni.Config.log
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -31,19 +38,21 @@ class PositionController(private val positionRepository: PositionRepository,
         }.orElse(ResponseEntity.notFound().build())
     }
 
+    @Synchronized
     @PostMapping("/position/{userid}")
-    fun createNewPosition(@PathVariable(value = "userid") userid: Int, @Valid @RequestBody position: Position): Position{
+    fun createNewPosition(@PathVariable(value = "userid") userid: Int, @Valid @RequestBody position: Position): Position {
         val user = userRepository.getOne(userid)
         position.user = user
         return positionRepository.save(position)
     }
 
+    @Synchronized
     @PutMapping("/position/{userid}")
-    fun edit(@PathVariable(value = "userid") userid: Int, @Valid @RequestBody newPosition: Position) {
+    fun edit(@PathVariable(value = "userid") userid: Int, @Valid @RequestBody newPosition: Position): Position {
         val user = userRepository.getOne(userid)
         newPosition.user = user
-        positionRepository.findById(newPosition.id).map { existingPosition ->
 
+        return positionRepository.findById(newPosition.id).map { existingPosition ->
             val updatePosition = existingPosition.copy(
                     id = newPosition.id,
                     startDate = newPosition.startDate,
@@ -60,6 +69,7 @@ class PositionController(private val positionRepository: PositionRepository,
     }
 
 
+    @Synchronized
     @PutMapping("/position/positionList/{userid}")
     fun edit(@PathVariable(value = "userid") userid: Int, @Valid @RequestBody newPositionList: List<Position>) {
         val user = userRepository.getOne(userid)
@@ -90,7 +100,7 @@ class PositionController(private val positionRepository: PositionRepository,
         val query = em.createNativeQuery("SELECT * FROM Position p INNER JOIN"
                 + " (SELECT user_id FROM User u WHERE nazwa = :userName) t"
                 + " ON p.user_id = t.user_id WHERE"
-                + " (p.first_location_date > :rangeFrom AND p.last_location_date < :rangeTo)", Position::class.java)
+                + " (p.last_location_date > :rangeFrom AND p.first_location_date < :rangeTo)", Position::class.java)
                 .setParameter("userName", userName)
                 .setParameter("rangeFrom", rangeFrom)
                 .setParameter("rangeTo", rangeTo)
@@ -114,9 +124,30 @@ class PositionController(private val positionRepository: PositionRepository,
 
         return query.singleResult as Position
     }
+
+    @GetMapping("position/test")
+    fun testGeocoder(): String {
+
+        val geoApiBuilder = GeoApiContext.Builder()
+                .apiKey("AIzaSyADPN7X3cxWbdMfpi5aHoikbaOv9N1L1LY")
+                .build()
+        val response: String
+
+        val latlng = LatLng(51.936770, 15.494357)
+        val results: Array<GeocodingResult>
+
+        try {
+            results = GeocodingApi.reverseGeocode(geoApiBuilder,latlng).await()
+            val gson = GsonBuilder().setPrettyPrinting().create()
+             response = gson.toJson(results[0].addressComponents)
+        } catch(e : Exception){
+            throw e
+
+        }
+        return response
+    }
+
 }
-
-
 
 
 //    @GET

@@ -1,6 +1,14 @@
 package com.example.gdziejestczoperweb.controller
 
+import com.example.gdziejestczoperweb.model.Position
 import com.example.gdziejestczoperweb.model.PositionGeoJoin
+import com.example.gdziejestczoperweb.repository.GeoRepository
+import com.example.gdziejestczoperweb.repository.PositionRepository
+import com.google.gson.GsonBuilder
+import com.google.maps.GeoApiContext
+import com.google.maps.GeocodingApi
+import com.google.maps.model.GeocodingResult
+import com.google.maps.model.LatLng
 import jdk.nashorn.internal.runtime.regexp.joni.Config.log
 import org.springframework.transaction.annotation.Transactional
 
@@ -18,7 +26,8 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/api")
 @Transactional
-class PositionGeoJoinController {
+class PositionGeoJoinController(private val positionRepository: PositionRepository,
+                                private val geoRepository: GeoRepository) {
 
     @PersistenceContext
     protected lateinit var em: EntityManager

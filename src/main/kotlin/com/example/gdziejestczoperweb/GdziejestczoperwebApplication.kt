@@ -23,7 +23,7 @@ class GdziejestczoperwebApplication: SpringBootServletInitializer() {
                             geoRepository: GeoRepository) = CommandLineRunner {
 
         val user1 = User(1, "Tomek", "Tomek", "tomek")
-        val user2 = User(2, "Pawel", "Pawel", "pawel")
+        val user2 = User(2, "maciej", "maciej", "maciej")
         val user3 = User(3, "Damian", "Damian", "damian")
 
         userRepository.save(user1)

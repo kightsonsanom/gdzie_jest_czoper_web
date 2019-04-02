@@ -27,6 +27,7 @@ class GeoController(private val geoRepository: GeoRepository,
             geoRepository.findAll()
 
 
+    @Synchronized
     @PostMapping("/geo/{userid}")
     fun createNewGeo(@PathVariable(value = "userid") userid: Int,
                      @Valid @RequestBody geo: Geo): Geo {
@@ -55,6 +56,7 @@ class GeoController(private val geoRepository: GeoRepository,
         return query.resultList as List<Geo>
     }
 
+    @Synchronized
     @PutMapping("/geo/{userid}")
     fun edit(@PathVariable(value = "userid") userid: Int,
              @Valid @RequestBody newGeo: Geo) {
@@ -72,6 +74,7 @@ class GeoController(private val geoRepository: GeoRepository,
         }.orElse(geoRepository.save(newGeo))
     }
 
+    @Synchronized
     @PutMapping("/geo/geoList/{userid}")
     fun edit(@PathVariable(value = "userid") userid: Int, @Valid @RequestBody newGeoList: List<Geo>) {
         val user = userRepository.getOne(userid)
