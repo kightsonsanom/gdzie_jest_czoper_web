@@ -1,15 +1,8 @@
 package com.example.gdziejestczoperweb.controller
 
-import com.example.gdziejestczoperweb.model.Position
 import com.example.gdziejestczoperweb.model.PositionGeoJoin
 import com.example.gdziejestczoperweb.repository.GeoRepository
 import com.example.gdziejestczoperweb.repository.PositionRepository
-import com.google.gson.GsonBuilder
-import com.google.maps.GeoApiContext
-import com.google.maps.GeocodingApi
-import com.google.maps.model.GeocodingResult
-import com.google.maps.model.LatLng
-import jdk.nashorn.internal.runtime.regexp.joni.Config.log
 import org.springframework.transaction.annotation.Transactional
 
 
@@ -20,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController
 
 import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
-import javax.persistence.Query
 import javax.validation.Valid
 
 @RestController
@@ -41,7 +33,7 @@ class PositionGeoJoinController(private val positionRepository: PositionReposito
 
     @Transactional
     fun insertPositionGeoJoin(positionGeoJoin: PositionGeoJoin) {
-        log.print("PositionGeoJoin = $positionGeoJoin")
+//        log.print("PositionGeoJoin = $positionGeoJoin")
         var query = em.createNativeQuery("INSERT INTO position_geo(geo_id, position_id) VALUES (:geoID, :positionID)")
                 .setParameter("geoID", positionGeoJoin.geoId)
                 .setParameter("positionID", positionGeoJoin.positionId)

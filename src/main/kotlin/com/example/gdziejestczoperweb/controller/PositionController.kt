@@ -7,10 +7,8 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.maps.GeoApiContext
 import com.google.maps.GeocodingApi
-import com.google.maps.GeocodingApiRequest
 import com.google.maps.model.GeocodingResult
 import com.google.maps.model.LatLng
-import jdk.nashorn.internal.runtime.regexp.joni.Config.log
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -96,7 +94,7 @@ class PositionController(private val positionRepository: PositionRepository,
     @GetMapping("position/positionForDayAndUser")
     fun getPositionForDayAndUser(@RequestParam("userName") userName: String, @RequestParam("rangeFrom") rangeFrom: Long, @RequestParam("rangeTo") rangeTo: Long): List<Position> {
 
-        log.print("getPositionForDayAndUser")
+//        log.print("getPositionForDayAndUser")
         val query = em.createNativeQuery("SELECT * FROM Position p INNER JOIN"
                 + " (SELECT user_id FROM User u WHERE nazwa = :userName) t"
                 + " ON p.user_id = t.user_id WHERE"
@@ -105,7 +103,7 @@ class PositionController(private val positionRepository: PositionRepository,
                 .setParameter("rangeFrom", rangeFrom)
                 .setParameter("rangeTo", rangeTo)
 
-        log.print("query.resultList as List<Position> = " + query.resultList as List<Position>)
+//        log.print("query.resultList as List<Position> = " + query.resultList as List<Position>)
 
         return query.resultList as List<Position>
     }
@@ -114,13 +112,13 @@ class PositionController(private val positionRepository: PositionRepository,
     @GetMapping("position/latestPositionForUser")
     fun getLatestPositionForUser(@RequestParam("userName") userName: String): Position {
 
-        log.print("getLatestPositionForUser")
+//        log.print("getLatestPositionForUser")
         val query = em.createNativeQuery("SELECT * FROM Position p INNER JOIN"
                 + " (SELECT user_id FROM User u WHERE nazwa = :userName) t"
                 + " ON p.user_id = t.user_id ORDER BY p.last_location_date DESC LIMIT 1", Position::class.java)
                 .setParameter("userName", userName)
 
-        log.print("query.resultList as List<Position> = " + query.singleResult as Position)
+//        log.print("query.resultList as List<Position> = " + query.singleResult as Position)
 
         return query.singleResult as Position
     }

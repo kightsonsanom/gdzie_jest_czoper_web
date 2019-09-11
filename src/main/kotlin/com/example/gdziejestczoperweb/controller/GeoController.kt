@@ -1,16 +1,12 @@
 package com.example.gdziejestczoperweb.controller
 
 import com.example.gdziejestczoperweb.model.Geo
-import com.example.gdziejestczoperweb.model.User
 import com.example.gdziejestczoperweb.repository.GeoRepository
 import com.example.gdziejestczoperweb.repository.UserRepository
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import jdk.nashorn.internal.runtime.regexp.joni.Config.log
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
-import javax.persistence.TypedQuery
 import javax.validation.Valid
 
 
